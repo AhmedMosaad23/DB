@@ -1,29 +1,26 @@
 #!/usr/bin/bash 
-export LC_COLLATE=C 
-shopt -s extglob
+export LC_COLLATE=C # Terminal Case Sensitive
+shopt -s extglob #import Advanced Regex
 #--------First Menu------<create db>---<list>-----<drop>------<connect>
  select choice in Create_db List_db Drop_db Connect_db
     do 
         case $choice in
-            "Create_db" )
-                read -p "Enter Name for New Data Base: " new
-                if [ -e $new ];then
-                    echo "Enter Diffrent Name"
+            "Create_db")
+                read -p "Enter Name for New Data Base: " name
+                if [ -e $name ];then
+                    echo "Data Base have Same Name";
                 else
-                    if [[ $new = ^[a-zA-Z_][a-zA-Z0-9_]*$ ]];then 
-                        mkdir /Downloads/DBs/$new
-                    else
-                        echo "Enter vaild Name"
-                    fi
+                        re=^[A-Za-z][A-Za-z0-9_]*$
+                     if [[ $name =~ $re ]];then 
+                        mkdir ~/Downloads/DBs/$name;
+                     else
+                            echo "Enter vaild Name";
+                     fi
                 fi            
             ;;
             "List_db" )
                 read -p "Enter Name Data Base to list it: " list
-                if [[ $list = ^[a-zA-Z_][a-zA-Z0-9_]*$ ]];then
                     ls -F $list | grep "/"
-                else
-                    echo "Enter Valid Name "
-                fi    
             ;;
             "Drop_db")
                 read -p "Enter Name for data base want to remove : " drop
@@ -42,7 +39,7 @@ shopt -s extglob
                     fi
             ;;
             * )
-                break
+                break;
         esac
     done 
 #-------------------------------------------
