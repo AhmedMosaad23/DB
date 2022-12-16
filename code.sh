@@ -13,6 +13,7 @@ shopt -s extglob #import Advanced Regex
                         re=^[A-Za-z][A-Za-z0-9_]*$
                      if [[ $name =~ $re ]];then 
                         mkdir ~/Downloads/DBs/$name;
+                        chmod u+x $name
                      else
                             echo "Enter vaild Name";
                      fi
@@ -20,9 +21,10 @@ shopt -s extglob #import Advanced Regex
             ;;
             "List_db" )
                 read -p "Enter Name Data Base to list it: " list
-                    ls -F $list | grep "/"
+                    ls ~/Downloads/DBs/$list
             ;;
             "Drop_db")
+                 cd ~/Downloads/DBs
                 read -p "Enter Name for data base want to remove : " drop
                     if [ -d $drop ];then
                         rm -r $drop
@@ -31,6 +33,7 @@ shopt -s extglob #import Advanced Regex
                     fi 
             ;;
             "Connect_db" )
+                cd ~/Downloads/DBs
                 read -p "Enter Name for data base want to connect it :" connect
                     if [ -d $connect ];then
                         cd ~/Downloads/DBs/$connect
