@@ -6,40 +6,58 @@ shopt -s extglob #import Advanced Regex
     do 
         case $choice in
             "Create_db")
-                read -p "Enter Name for New Data Base: " name
+                name=$(zenity --entry --title="Please enter your name")
+                zenity --info --text="Successful Create $name " --no-wrap
                 if [ -e $name ];then
                     echo "Data Base have Same Name";
                 else
                         re=^[A-Za-z][A-Za-z0-9_]*$
                      if [[ $name =~ $re ]];then 
                         mkdir ~/Downloads/DBs/$name;
-                        chmod u+x $name
                      else
                             echo "Enter vaild Name";
                      fi
                 fi            
             ;;
             "List_db" )
-                read -p "Enter Name Data Base to list it: " list
-                    ls ~/Downloads/DBs/$list
+                #read -p "Enter Name Data Base to list it: " list
+                    ls -F ~/Downloads/DBs | grep /
             ;;
             "Drop_db")
                  cd ~/Downloads/DBs
                 read -p "Enter Name for data base want to remove : " drop
-                    if [ -d $drop ];then
-                        rm -r $drop
-                    else
-                        echo "Not Found Name For Data Base"
-                    fi 
+                   #re=^[A-Za-z][A-Za-z0-9_]*$
+                   # if [[ $connect =~ $re ]];then
+                        if [ -d $drop ];then
+                        #--------------------------GUI--------------------
+                            if zenity --question --title="Confirm deletion" --text="Are you sure you want to delete this file?" --no-wrap 
+                            then
+                                zenity --info --title="Success" --text="Data base remove" --no-wrap
+                                rm -rf $drop
+                            fi
+                        #-------------------------------------------------
+                            
+                        else
+                         echo "Not Found Name For Data Base"
+                        fi
+                    #else
+                    #    echo "Enter Vaild Name "
+                    #fi         
             ;;
             "Connect_db" )
                 cd ~/Downloads/DBs
                 read -p "Enter Name for data base want to connect it :" connect
-                    if [ -d $connect ];then
-                        cd ~/Downloads/DBs/$connect
-                    else
-                        echo "Not Found Name For Data Base"  
-                    fi
+                    re=^[A-Za-z][A-Za-z0-9_]+$
+                     if [[ $connect =~ $re ]];then
+                        if [ -d $connect ];then
+                            cd ~/Downloads/DBs/$connect
+                            exec ~/Downloads/DBs/code1.sh
+                        else
+                            echo "Not Found Name For Data Base"  
+                        fi
+                     else 
+                        echo "Enter Vaild Name"
+                     fi   
             ;;
             * )
                 break;
