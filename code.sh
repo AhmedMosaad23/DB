@@ -34,6 +34,7 @@ fi
             "List_db" )
                 #read -p "Enter Name Data Base to list it: " list
                     ls -F ~/Downloads/DBs | grep /
+
             ;;
             "Drop_db")
                  cd ~/Downloads/DBs
@@ -60,7 +61,8 @@ fi
             ;;
             "Connect_db" )
                 cd ~/Downloads/DBs
-                read -p "Enter Name for data base want to connect it :" connect
+                #read -p "Enter Name for data base want to connect it :" connect
+                connect=$(zenity --entry \--width 300 \--title "Data Base" \--text "Enter the data base name")
                     re=^[A-Za-z][A-Za-z0-9_]+$
                      if [[ $connect =~ $re ]];then
                         if [ -d $connect ];then

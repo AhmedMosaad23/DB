@@ -27,7 +27,12 @@ select choice in create_Table List_Tables Drop_Table Insert_into_Table Select_Fr
                     fi
             #-------------------------------------------
                 else
-                    echo "Not Found Name Table"
+                 zenity --warning \
+                    --title "Warning Message" \
+                    --width 500 \
+                    --height 100 \
+                    --text " Not Found Name Table "
+                   # echo "Not Found Name Table"
                 fi    
             ;;
             #------------------------------------------------
@@ -55,10 +60,7 @@ select choice in create_Table List_Tables Drop_Table Insert_into_Table Select_Fr
             #------------------------------------------------
             "Update_Table" )
 
-
-
-
-
+                exec ~/Downloads/DBs/update.sh
 
             ;;
             #-----------------------------------------------
