@@ -1,23 +1,35 @@
 #!/usr/bin/bash 
 export LC_COLLATE=C # Terminal Case Sensitive
 shopt -s extglob #import Advanced Regex
+dir=~/Downloads/DBs
+if [ -e $dir ];then
+   sleep 1
+else  
+  mkdir $dir
+fi  
 #--------First Menu------<create db>---<list>-----<drop>------<connect>
- select choice in Create_db List_db Drop_db Connect_db
+ select choice in Create_db List_db Drop_db Connect_db Exit
     do 
         case $choice in
             "Create_db")
-                name=$(zenity --entry --title="Please enter your name")
-                zenity --info --text="Successful Create $name " --no-wrap
-                if [ -e $name ];then
-                    echo "Data Base have Same Name";
-                else
-                        re=^[A-Za-z][A-Za-z0-9_]*$
-                     if [[ $name =~ $re ]];then 
-                        mkdir ~/Downloads/DBs/$name;
-                     else
-                            echo "Enter vaild Name";
-                     fi
-                fi            
+                name=$(zenity --entry \--width 300 \--title "Data Base" \--text "Enter the data base name")
+                    if [ -e $name ];then
+                        #echo "Data Base have Same Name"
+                        zenity --info --text="Data base have same name " --no-wrap
+                        exec ~/Downloads/DBs/code.sh
+                    else
+                            re=^[A-Za-z][A-Za-z0-9_]+$
+                        if [[ $name =~ $re ]];then 
+                                zenity --info --text="Successful Create $name data base " --no-wrap
+                                mkdir ~/Downloads/DBs/$name
+                                exec ~/Downloads/DBs/code.sh
+                        else
+                                #echo "Enter vaild Name";
+                                zenity --info --text="Enter vaild name not $name " --no-wrap
+                                exec ~/Downloads/DBs/code.sh
+                        fi
+                    fi            
+            
             ;;
             "List_db" )
                 #read -p "Enter Name Data Base to list it: " list
@@ -34,11 +46,13 @@ shopt -s extglob #import Advanced Regex
                             then
                                 zenity --info --title="Success" --text="Data base remove" --no-wrap
                                 rm -rf $drop
+                                exec ~/Downloads/DBs/code.sh
                             fi
                         #-------------------------------------------------
                             
                         else
                          echo "Not Found Name For Data Base"
+                         exec ~/Downloads/DBs/code.sh
                         fi
                     #else
                     #    echo "Enter Vaild Name "
@@ -59,7 +73,7 @@ shopt -s extglob #import Advanced Regex
                         echo "Enter Vaild Name"
                      fi   
             ;;
-            * )
+            Exit )
                 break;
         esac
     done 

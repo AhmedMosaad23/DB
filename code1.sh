@@ -2,26 +2,23 @@
 export LC_COLLATE=C # Terminal Case Sensitive
 shopt -s extglob #import Advanced Regex
 #-------------------for second menu--------------
-select choice in create_Table List_Tables Drop_Table Insert_into_Table Select_From_Table Delete_From_Table Update_Table
+sleep 1
+select choice in create_Table List_Tables Drop_Table Insert_into_Table Select_From_Table Delete_From_Table Update_Table Back
     do
         case $choice in 
             "create_Table" )
-
-
+                
+                exec ~/Downloads/DBs/test_create.sh
 
             ;;
             #----------------------------------------------
             "List_Tables" )
-            read -p "Enter Data Base Name : " name
-            cd ~/Downloads/DBs/$name
-             ls
-            
-
+             ls -F |grep /
             ;;
             #-----------------------------------------------
             "Drop_Table" )
-            read -p "Enter name of Table" drop
-                if [ -f $drop ];then
+            read -p "Enter name of Table:" drop
+                if [[ -f $drop && -e $drop ]];then
             #------------------GUI FOR DROP-------------------------
                     if zenity --question --title="Confirm deletion" --text="Are you sure you want to delete this file?" --no-wrap 
                     then
@@ -36,24 +33,22 @@ select choice in create_Table List_Tables Drop_Table Insert_into_Table Select_Fr
             #------------------------------------------------
             "Insert_into_Table" )
 
-
+                exec ~/Downloads/DBs/insert-data.sh
 
             ;;
 
             #------------------------------------------------
             "Select_From_Table" )
 
-
+                exec ~/Downloads/DBs/select.sh
 
 
 
             ;;
             #-------------------------------------------------
             "Delete_From_Table" )
-
-
-
-
+             
+               exec ~/Downloads/DBs/del.sh
 
 
             ;;
@@ -67,10 +62,11 @@ select choice in create_Table List_Tables Drop_Table Insert_into_Table Select_Fr
 
             ;;
             #-----------------------------------------------
+            "Back")
+              exec ~/Downloads/DBs/code.sh
 
 
-
-
+            ;;
 
 
         esac
